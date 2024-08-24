@@ -1,4 +1,4 @@
-from .board import Board, array_to_index, erased
+from .board import Board, array_to_index, erased, erasable
 import random as rnd
 import numpy as np
 
@@ -7,7 +7,7 @@ def lowest_rating(row, col, branches, dataframe):
     worst_branch = None
     lowest_rating = 1
     for b1 in branches:
-        rating = 1 - dataframe[erased(b1)][2][array_to_index(b1)]
+        rating = dataframe[erased(b1)][2][array_to_index(b1)]
         if rating == 0:
             return [b1, rating]
         if rating <= lowest_rating:
@@ -40,7 +40,7 @@ def lowest_highest_lowest_rating(row, col, branches, dataframe):
     return [worst_branch, lowest_rating]
 
 
-class Player:
+class Bot:
     def __init__(self, mode):
         self.mode = mode
         self.history = []
@@ -51,10 +51,10 @@ class Player:
     def clear_history(self):
         self.history = []
 
-    def pick_move(self, branches, dataframe):
+    def pick_move(self, board, dataframe):
         # random board
         if self.mode == 1:
-            choice = rnd.choice(branches) 
+            choice = rnd.choice(board.branches) 
             return choice
         
         # random board with weight of 1-rating
@@ -71,14 +71,14 @@ class Player:
         #             return rnd.choices(current_board.branches, weights = weights, k=1)[0]
 
         # lowest rating for opponent
-        if self.mode == 3:
-            return lowest_rating(row, col, branches, dataframe)[0]
+        if self.mode == 2:
+            return lowest_rating(board.row, board.col, board.branches, dataframe)[0]
         
         # highest rating for next self turn (assuming opponent pick lowest rating for self)
-        if self.mode == 4:
-            return highest_lowest_rating(row, col, branches, dataframe)[0]
+        if self.mode == 3:
+            return highest_lowest_rating(board.row, board.col, board.branches, dataframe)[0]
         
         # 2 steps ahead with lowest rating
-        if self.mode == 5:
-            return lowest_highest_lowest_rating(row, col, branches, dataframe)[0]
+        if self.mode == 4:
+            return lowest_highest_lowest_rating(board.row, board.col, board.branches, dataframe)[0]
 

@@ -1,2 +1,2 @@
-from . import board, player, ratings
+from . import board, bot, ratings
 

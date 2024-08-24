@@ -37,12 +37,12 @@ class Ratings:
                 index_col = 0
             ))
 
-    def update(self, players, winner):
-        for i in players[winner].history:
+    def update(self, bots, winner):
+        for i in bots[winner].history:
             n = i.count('1')
             self.dataframe[n].loc[i, 1] += 1
             self.dataframe[n].loc[i, 2] = round((self.dataframe[n].loc[i, 2]+1)/2, 3)
-        for i in players[1 - winner].history:
+        for i in bots[1 - winner].history:
             n = i.count('1')
             self.dataframe[n].loc[i, 1] += 1
             self.dataframe[n].loc[i, 2] = round(self.dataframe[n].loc[i, 2]/2, 3)
