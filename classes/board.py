@@ -17,7 +17,7 @@ def all_combinations(row, col):
 
 
 def array_to_index(array):
-    index = ''
+    index = ""
     for r in array:
         for c in r:
             index += str(c)
@@ -27,7 +27,7 @@ def array_to_index(array):
 def erased(array):
     return np.count_nonzero(array)
 
-# longest length of consecutive 0's in an array
+# longest length of consecutive 0"s in an array
 def erasable(row, col, array):
     erasable = 0
     for r in range(row):
@@ -48,7 +48,7 @@ def erasable(row, col, array):
 
 
 # returns valid boards([arr])
-def branches(row, col, array, erasable):
+def get_branches(row, col, array, erasable):
     branches = []
     for r in range(0, row):
         for c in range(0, col):
@@ -73,7 +73,7 @@ def branches(row, col, array, erasable):
     return branches
 
 
-def equals(row, col, size, array, index, erased):
+def get_equals(row, col, size, array, index, erased):
     equals = []
     if erased == 0 or erased == size:
         return [index]
@@ -152,7 +152,7 @@ class Board:
         self.size = self.row * self.col
 
         self.array = np.zeros((self.row, self.col), dtype=int)
-        self.index = '0' * self.size
+        self.index = "0" * self.size
         self.erased = 0
         self.erasable = max(self.row, self.col)
 
@@ -165,10 +165,10 @@ class Board:
         self.erased = erased(self.array) 
         self.erasable = erasable(self.row, self.col, self.array)
 
-    def get_branches(self):
-        self.branches = branches(self.row, self.col, self.array, self.erasable)
+    def update_branches(self):
+        self.branches = get_branches(self.row, self.col, self.array, self.erasable)
 
     # returns equal boards([str])
-    def get_equals(self):
-        self.equals = equals(self.row, self.col, self.size, self.array, self.index, self.erased)
+    def update_equals(self):
+        self.equals = get_equals(self.row, self.col, self.size, self.array, self.index, self.erased)
 

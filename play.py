@@ -11,28 +11,25 @@ def main():
     COL = int(sys.argv[2])
     MODE = int(sys.argv[3])
 
-    current_board = Board(ROW, COL)
     bot = Bot(MODE)
     ratings = Ratings(ROW, COL)
     ratings.load()
 
-    game_running = True
-
-    while game_running == True:
-        print('  a b c d ')
+    current_board = Board(ROW, COL)
+    while True:
+        print("  a b c d ")
         for i, j in enumerate(current_board.array):
-            print(f'{i+1}{j}')
+            print(f"{i+1}{j}")
 
         if current_board.erased == current_board.size:
-            game_running = False
-            print('Game over: Player wins!')
+            print("Game over: Player wins!")
             break
 
         # human picking
         while True:
             inputs = [None, None]
-            inputs[0] = input('Start point:')
-            inputs[1] = input('End point:')
+            inputs[0] = input("Start point:")
+            inputs[1] = input("End point:")
             try:
                 if all([len(i)==2 for i in inputs]):
                     coords = []
@@ -46,26 +43,24 @@ def main():
                                 human_pick = copy.deepcopy(current_board.array)
                                 human_pick[coords[0][0]:coords[1][0]+1, coords[0][1]:coords[1][1]+1] = 1
                                 break
-                print('Invalid input!')
+                print("Invalid input!")
             except:
-                print('Invalid input!')
+                print("Invalid input!")
         current_board.update(human_pick)
 
-        print('  a b c d ')
+        print("  a b c d ")
         for i, j in enumerate(current_board.array):
-            print(f'{i+1}{j}')
+            print(f"{i+1}{j}")
 
         if current_board.erased == current_board.size:
-            game_running = False
-            print('Game over: Computer wins!')
+            print("Game over: Computer wins!")
             break
 
-        current_board.get_branches()
+        current_board.update_branches()
         next_board = bot.pick_move(current_board, ratings.dataframe)
-        print("next_board:")
-        print(next_board)
         current_board.update(next_board)
+        print("next_board:")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 

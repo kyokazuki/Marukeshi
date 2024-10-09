@@ -3,19 +3,19 @@ import os, shutil, sys
 
 
 def main():
-    row = int(sys.argv[1])
-    col = int(sys.argv[2])
-    if os.path.exists(f'{row}x{col}') == True:
-        if input("Directory exists! Reset? (y/N): ") == 'y':
-            shutil.rmtree(f'{row}x{col}')
+    ROW = int(sys.argv[1])
+    COL = int(sys.argv[2])
+    if os.path.exists(f"{ROW}x{COL}") == True:
+        if input("Directory exists! Reset? (y/N): ") == "y":
+            shutil.rmtree(f'{ROW}x{COL}')
         else:
             quit()
-    os.makedirs(f'./{row}x{col}')
-    ratings = Ratings(row, col)
+    os.makedirs(f"./{ROW}x{COL}")
+    ratings = Ratings(ROW, COL)
     ratings.create()
     ratings.write()
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
 
